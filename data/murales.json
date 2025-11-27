@@ -4,7 +4,7 @@
     "title": "Las Venus de Valdivia",
     "cultureId": "valdivia",
     "description": "Figurina Valdivia antropomorfa oscura colocada junto a un dispositivo digital moderno azul y blanco.",
-    "image": "../assets/img/mural1.png",
+    "image": "assets/img/mural1.png",
     "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
     "sources": [
       "Museo Antropológico y de Arte Contemporáneo (MAAC)",
@@ -16,7 +16,7 @@
     "title": "Sonidos de Tolita",
     "cultureId": "tolita",
     "description": "Figurina de cerámica rojiza de un personaje que parece estar tocando un instrumento musical de viento tipo flauta o zampoña.",
-    "image": "../assets/img/mural2.png",
+    "image": "assets/img/mural2.png",
     "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
     "sources": [
       "Museo Antropológico y de Arte Contemporáneo (MAAC)",
@@ -28,7 +28,7 @@
     "title": "Danzantes de Tolita",
     "cultureId": "tolita",
     "description": "Busto arqueológico denominado 'Viejo Danzante' con un gran tocado circular, destacado en color dorado sobre un fondo ornamental de joyas y cintas.",
-    "image": "../assets/img/mural3.png",
+    "image": "assets/img/mural3.png",
     "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
     "sources": [
       "Museo Antropológico y de Arte Contemporáneo (MAAC)",
@@ -40,7 +40,7 @@
     "title": "Navegantes",
     "cultureId": "bahia",
     "description": "Homenaje a los grandes navegantes que dominaron el océano Pacífico, mostrando sus balsas y el intercambio comercial de la concha Spondylus.",
-    "image": "../assets/img/mural4.png",
+    "image": "assets/img/mural4.png",
     "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
     "sources": [
       "Museo Antropológico y de Arte Contemporáneo (MAAC)",
@@ -52,7 +52,7 @@
     "title": "Geometría Jama Coaque",
     "cultureId": "jama-coaque",
     "description": "Una colección de sellos y piezas de cerámica precolombina con diseños geométricos, rodeados de pequeños discos o monedas oscuras.",
-    "image": "../assets/img/mural5.png",
+    "image": "assets/img/mural5.png",
     "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
     "sources": [
       "Museo Antropológico y de Arte Contemporáneo (MAAC)",
@@ -64,7 +64,7 @@
     "title": "Poder Manteño",
     "cultureId": "mantena",
     "description": "Un copón o vaso ceremonial de base ancha con una pequeña figura humana sentada a sus pies, envuelto en humo iluminado con tonos púrpura y verde.",
-    "image": "../assets/img/mural6.png",
+    "image": "assets/img/mural6.png",
     "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
     "sources": [
       "Museo Antropológico y de Arte Contemporáneo (MAAC)",
@@ -76,7 +76,7 @@
     "title": "El Jaguar de La Tolita",
     "cultureId": "tolita",
     "description": "Gran escultura de cerámica de una deidad o criatura zoomorfa de expresión feroz, con colmillos y grandes orejas, bañada en luces de color neón.",
-    "image": "../assets/img/mural7.png",
+    "image": "assets/img/mural7.png",
     "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
     "sources": [
       "Museo Antropológico y de Arte Contemporáneo (MAAC)",

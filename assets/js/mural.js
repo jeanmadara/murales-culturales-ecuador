@@ -1,52 +1,52 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const muralContainer = document.getElementById('mural-detail');
+  const muralContainer = document.getElementById('mural-detail');
 
-    if (!muralContainer) return;
+  if (!muralContainer) return;
 
-    // Extract ID from filename (e.g., "mural1.html" -> "mural-1")
-    const path = window.location.pathname;
-    const filename = path.split('/').pop(); // "mural1.html"
-    const muralNumber = filename.match(/mural(\d+)\.html/)[1];
-    const muralId = `mural-${muralNumber}`;
+  // Extract ID from filename (e.g., "mural1.html" -> "mural-1")
+  const path = window.location.pathname;
+  const filename = path.split('/').pop(); // "mural1.html"
+  const muralNumber = filename.match(/mural(\d+)\.html/)[1];
+  const muralId = `mural-${muralNumber}`;
 
-    Promise.all([
-        fetch('../data/murales.json').then(res => res.json()),
-        fetch('../data/culturas.json').then(res => res.json())
-    ])
-        .then(([murales, culturas]) => {
-            const mural = murales.find(m => m.id === muralId);
+  Promise.all([
+    fetch('../data/murales.json').then(res => res.json()),
+    fetch('../data/culturas.json').then(res => res.json())
+  ])
+    .then(([murales, culturas]) => {
+      const mural = murales.find(m => m.id === muralId);
 
-            if (!mural) {
-                throw new Error('Mural no encontrado');
-            }
+      if (!mural) {
+        throw new Error('Mural no encontrado');
+      }
 
-            const culture = culturas[mural.cultureId];
-            renderMuralDetail(mural, culture);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            muralContainer.innerHTML = `
+      const culture = culturas[mural.cultureId];
+      renderMuralDetail(mural, culture);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      muralContainer.innerHTML = `
       <div class="error-container">
         <h2>Mural no encontrado</h2>
         <p>Lo sentimos, no pudimos cargar la información de este mural.</p>
         <a href="../index.html" class="btn">Volver al inicio</a>
       </div>
     `;
-        });
+    });
 
-    function renderMuralDetail(mural, culture) {
-        // Update Page Title
-        document.title = `${mural.title} - Murales Culturales`;
+  function renderMuralDetail(mural, culture) {
+    // Update Page Title
+    document.title = `${mural.title} - Murales Culturales`;
 
-        // Render Content
-        muralContainer.innerHTML = `
+    // Render Content
+    muralContainer.innerHTML = `
       <header class="mural-header">
         <span class="culture-tag">${culture ? culture.name : 'Cultura Desconocida'}</span>
         <h1 class="mural-title">${mural.title}</h1>
       </header>
 
       <div class="mural-media">
-        <img src="${mural.image}" alt="${mural.title}" class="mural-img-large">
+        <img src="../${mural.image}" alt="${mural.title}" class="mural-img-large">
       </div>
 
       <div class="mural-info">
@@ -86,5 +86,5 @@ document.addEventListener('DOMContentLoaded', () => {
         </aside>
       </div>
     `;
-    }
+  }
 });
