@@ -1,0 +1,37 @@
+{
+    "valdivia": {
+        "name": "Cultura Valdivia",
+        "generalDescription": "Una de las culturas más antiguas de América (4000-1500 a.C.), famosa por sus figurillas de cerámica 'Venus' y por ser una de las primeras sociedades alfareras.",
+        "region": "Costa sur (Guayas, Santa Elena, El Oro)"
+    },
+    "chorrera": {
+        "name": "Cultura Chorrera",
+        "generalDescription": "Conocida por su exquisita cerámica con botellas silbato y representaciones naturalistas de alta calidad estética (1000-300 a.C.).",
+        "region": "Cuenca del río Guayas"
+    },
+    "jama-coaque": {
+        "name": "Cultura Jama-Coaque",
+        "generalDescription": "Sociedad compleja (350 a.C. - 1532 d.C.) que destacó por su elaborada vestimenta, adornos y figuras de cerámica que documentan su vida cotidiana y ritual.",
+        "region": "Norte de Manabí"
+    },
+    "bahia": {
+        "name": "Cultura Bahía",
+        "generalDescription": "Grandes navegantes y comerciantes (500 a.C. - 650 d.C.) que dominaron la isla de la Plata y desarrollaron una fuerte jerarquía social.",
+        "region": "Costa central (Manabí)"
+    },
+    "guangala": {
+        "name": "Cultura Guangala",
+        "generalDescription": "Destacados por trabajar el cobre y la piedra, así como por su cerámica policromada con diseños geométricos (100 a.C. - 800 d.C.).",
+        "region": "Santa Elena y sur de Manabí"
+    },
+    "mantena": {
+        "name": "Cultura Manteña",
+        "generalDescription": "La última gran cultura precolombina del litoral (500-1532 d.C.), famosos por sus sillas de piedra en forma de U y su gran capacidad de navegación en balsa.",
+        "region": "Manabí y Guayas"
+    },
+    "tolita": {
+        "name": "Cultura La Tolita",
+        "generalDescription": "Maestros orfebres que trabajaron el oro y el platino con técnicas avanzadas. Su arte religioso es de los más complejos de la región (600 a.C. - 400 d.C.).",
+        "region": "Esmeraldas (frontera norte)"
+    }
+}
