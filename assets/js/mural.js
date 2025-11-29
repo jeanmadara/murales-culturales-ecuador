@@ -21,12 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const culture = culturas[mural.cultureId];
-      renderMuralDetail(mural, culture);
+      renderScrollyMural(mural, culture);
     })
     .catch(error => {
       console.error('Error:', error);
       muralContainer.innerHTML = `
-      <div class="error-container">
+      <div class="error-container" style="text-align: center; padding: 2rem;">
         <h2>Mural no encontrado</h2>
         <p>Lo sentimos, no pudimos cargar la información de este mural.</p>
         <a href="../index.html" class="btn">Volver al inicio</a>
@@ -34,57 +34,148 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     });
 
-  function renderMuralDetail(mural, culture) {
+  function renderScrollyMural(mural, culture) {
     // Update Page Title
     document.title = `${mural.title} - Murales Culturales`;
 
+    // Add scrolly mode class to body
+    document.body.classList.add('scrolly-mode');
+
     // Render Content
     muralContainer.innerHTML = `
-      <header class="mural-header">
-        <span class="culture-tag">${culture ? culture.name : 'Cultura Desconocida'}</span>
-        <h1 class="mural-title">${mural.title}</h1>
-      </header>
-
-      <div class="mural-media">
-        <img src="../${mural.image}" alt="${mural.title}" class="mural-img-large">
-      </div>
-
-      <div class="mural-info">
-        <div class="main-info">
-          <div class="info-section">
-            <h3>Descripción</h3>
-            <p>${mural.description}</p>
-          </div>
+      <div class="scrolly-container">
+        <!-- Sticky Background Image -->
+        <div class="sticky-background">
+          <img src="../${mural.image}" alt="${mural.title}" class="bg-image" id="hero-image">
+          <div class="overlay" id="hero-overlay"></div>
           
-          ${culture ? `
-            <div class="info-section">
-              <h3>Sobre la Cultura</h3>
-              <p><strong>Región:</strong> ${culture.region}</p>
-              <p>${culture.generalDescription}</p>
-            </div>
-          ` : ''}
-
-          <div class="info-section">
-            <h3>Video Relacionado</h3>
-            <div class="video-container">
-              <iframe src="${mural.videoUrl}" frameborder="0" allowfullscreen></iframe>
-            </div>
+          <div class="intro-title" id="intro-title">
+            <span class="culture-tag" style="margin-bottom: 1rem; display: inline-block;">${culture ? culture.name : 'Cultura Desconocida'}</span>
+            <h1>${mural.title}</h1>
+            <p class="scroll-indicator">Desliza para descubrir ↓</p>
           </div>
         </div>
 
-        <aside class="sidebar">
-          <div class="info-section">
-            <h3>Fuentes</h3>
-            <ul class="sources-list">
+        <!-- Scrolling Content -->
+        <div class="content-layer">
+          
+          <!-- Spacer for initial clean view -->
+          <div style="height: 100vh;"></div>
+
+          <!-- Block 2: Description -->
+          <article class="story-card" data-step="1">
+            <h2>El Mural</h2>
+            <p>${mural.description}</p>
+          </article>
+
+          <!-- Block 3: Culture -->
+          ${culture ? `
+          <article class="story-card" data-step="2">
+            <h2>La Cultura ${culture.name}</h2>
+            <h3>Región: ${culture.region}</h3>
+            <p>${culture.generalDescription}</p>
+          </article>
+          ` : ''}
+
+          <!-- Block 4: Video & Sources -->
+          <article class="story-card" data-step="3">
+            <h2>Multimedia y Fuentes</h2>
+            <div class="video-container" style="margin-bottom: 1.5rem;">
+              <iframe src="${mural.videoUrl}" frameborder="0" allowfullscreen></iframe>
+            </div>
+            
+            <h3>Fuentes:</h3>
+            <ul class="sources-list" style="margin-bottom: 1.5rem;">
               ${mural.sources.map(source => `<li>${source}</li>`).join('')}
             </ul>
-          </div>
-          
-          <div style="margin-top: 2rem;">
-            <a href="../index.html" class="btn" style="width: 100%">← Volver al Mapa</a>
-          </div>
-        </aside>
+
+            <div style="text-align: center;">
+              <a href="../index.html" class="btn">← Volver al Mapa</a>
+            </div>
+          </article>
+
+          <!-- Block 5: Clean Image (Empty card to trigger view) -->
+          <div class="story-card" data-step="4" style="opacity: 0; pointer-events: none; height: 50vh;"></div>
+
+        </div>
       </div>
     `;
+
+    // Initialize Intersection Observer
+    initScrollyObserver();
+  }
+
+  function initScrollyObserver() {
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -20% 0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+
+          // Dynamic effects based on step
+          const step = entry.target.dataset.step;
+          const heroImage = document.getElementById('hero-image');
+          const introTitle = document.getElementById('intro-title');
+          const heroOverlay = document.getElementById('hero-overlay');
+
+          if (step === '1') {
+            // Description View
+            heroImage.style.filter = 'blur(4px) brightness(0.6)';
+            heroImage.style.transform = 'scale(1.1)';
+            introTitle.style.opacity = '0';
+            heroOverlay.style.opacity = '1';
+          }
+
+          if (step === '2') {
+            // Culture View
+            heroImage.style.filter = 'blur(8px) brightness(0.4) sepia(0.5)';
+            heroImage.style.transform = 'scale(1.2)';
+          }
+
+          if (step === '3') {
+            // Video View
+            heroImage.style.filter = 'blur(6px) brightness(0.3)';
+            heroImage.style.transform = 'scale(1.1)';
+          }
+
+          if (step === '4') {
+            // Clean Image View
+            heroImage.style.filter = 'none';
+            heroImage.style.transform = 'scale(1)';
+            introTitle.style.opacity = '0'; // Keep title hidden
+            heroOverlay.style.opacity = '0'; // Hide overlay to see clear image
+          }
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.story-card, [data-step="4"]').forEach(card => {
+      observer.observe(card);
+    });
+
+    // Reset view when scrolling to top
+    window.addEventListener('scroll', () => {
+      if (window.scrollY < 50) {
+        const heroImage = document.getElementById('hero-image');
+        const introTitle = document.getElementById('intro-title');
+        const heroOverlay = document.getElementById('hero-overlay');
+
+        if (heroImage) {
+          heroImage.style.filter = 'none';
+          heroImage.style.transform = 'scale(1)';
+        }
+        if (introTitle) {
+          introTitle.style.opacity = '1';
+        }
+        if (heroOverlay) {
+          heroOverlay.style.opacity = '1';
+        }
+      }
+    });
   }
 });

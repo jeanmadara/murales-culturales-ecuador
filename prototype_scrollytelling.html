@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototipo Scrollytelling - Murales Culturales</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #e63946;
+            --text-color: #f1faee;
+            --bg-color: #1d3557;
+            --card-bg: rgba(29, 53, 87, 0.85);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* Container for the sticky image */
+        .scrolly-container {
+            position: relative;
+            height: 300vh;
+            /* Long enough to scroll */
+        }
+
+        .sticky-background {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .bg-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: filter 0.5s ease, transform 0.5s ease;
+        }
+
+        /* Overlay gradient for better text readability */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.8) 100%);
+            z-index: 2;
+        }
+
+        /* Scroll content */
+        .content-layer {
+            position: relative;
+            z-index: 10;
+            padding: 2rem;
+            margin-top: -80vh;
+            /* Start overlapping before the end */
+        }
+
+        .intro-title {
+            position: absolute;
+            bottom: 10vh;
+            left: 2rem;
+            right: 2rem;
+            z-index: 5;
+            text-align: center;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .intro-title h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 1rem;
+        }
+
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .story-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 80vh;
+            /* Space between cards */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateY(50px);
+            opacity: 0;
+            transition: all 0.8s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .story-card.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .story-card h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .story-card p {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-10px);
+            }
+
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* Mobile optimization */
+        @media (min-width: 768px) {
+            .scrolly-container {
+                display: flex;
+            }
+
+            .sticky-background {
+                width: 50%;
+            }
+
+            .content-layer {
+                width: 50%;
+                margin-top: 0;
+                padding-top: 50vh;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="scrolly-container">
+        <!-- Sticky Background Image -->
+        <div class="sticky-background">
+            <img src="assets/img/mural1.png" alt="Mural Valdivia" class="bg-image" id="hero-image">
+            <div class="overlay"></div>
+
+            <div class="intro-title" id="intro-title">
+                <h1>Las Venus de Valdivia</h1>
+                <p class="scroll-indicator">Desliza para descubrir ↓</p>
+            </div>
+        </div>
+
+        <!-- Scrolling Content -->
+        <div class="content-layer">
+
+            <!-- Card 1: Context -->
+            <article class="story-card" data-step="1">
+                <h2>El Origen</h2>
+                <p>Hace más de 5.000 años, en la costa del actual Ecuador, surgió una de las primeras sociedades
+                    alfareras de América: la Cultura Valdivia.</p>
+                <p>Sus figuras femeninas, conocidas como "Venus", son el símbolo más enigmático de su cosmovisión.</p>
+            </article>
+
+            <!-- Card 2: Detail -->
+            <article class="story-card" data-step="2">
+                <h2>Simbolismo</h2>
+                <p>No eran simples adornos. Estas estatuillas representaban la fertilidad, la mujer como creadora de
+                    vida y posiblemente eran usadas en rituales de sanación y chamanismo.</p>
+                <p>Fíjate en los detalles del peinado, que indicaban el estatus social.</p>
+            </article>
+
+            <!-- Card 3: Interaction -->
+            <article class="story-card" data-step="3">
+                <h2>Explora Más</h2>
+                <p>Este mural conecta el pasado ancestral con el presente digital.</p>
+                <div style="text-align: center;">
+                    <a href="#" class="btn">Ver en Realidad Aumentada</a>
+                </div>
+            </article>
+
+        </div>
+    </div>
+
+    <script>
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '-20% 0px -20% 0px', // Trigger when element is in the middle 60% of screen
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+
+                    // Dynamic effects based on step
+                    const step = entry.target.dataset.step;
+                    const heroImage = document.getElementById('hero-image');
+                    const introTitle = document.getElementById('intro-title');
+
+                    if (step === '1') {
+                        heroImage.style.filter = 'blur(4px) brightness(0.6)';
+                        heroImage.style.transform = 'scale(1.1)';
+                        introTitle.style.opacity = '0';
+                    }
+
+                    if (step === '2') {
+                        heroImage.style.filter = 'blur(8px) brightness(0.4) sepia(0.5)';
+                        heroImage.style.transform = 'scale(1.2)';
+                    }
+
+                    if (step === '3') {
+                        heroImage.style.filter = 'blur(2px) brightness(0.3)';
+                        heroImage.style.transform = 'scale(1)';
+                    }
+                } else {
+                    // Optional: Remove class to re-trigger animation when scrolling back up
+                    // entry.target.classList.remove('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.story-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Reset view when scrolling to top
+        window.addEventListener('scroll', () => {
+            if (window.scrollY < 100) {
+                const heroImage = document.getElementById('hero-image');
+                const introTitle = document.getElementById('intro-title');
+
+                heroImage.style.filter = 'none';
+                heroImage.style.transform = 'scale(1)';
+                introTitle.style.opacity = '1';
+            }
+        });
+    </script>
+</body>
+
+</html>
