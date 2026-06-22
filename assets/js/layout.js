@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const headerHTML = `
         <header>
             <div class="container">
-                <h1><a href="${basePath}index.html">Murales Culturales</a></h1>
+                <h1><a href="${basePath}index.html">Herencia Ancestral</a></h1>
             </div>
         </header>
     `;
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const footerHTML = `
         <footer>
             <div class="container">
-                <p>&copy; 2025 Murales Culturales. Proyecto Educativo.</p>
+                <p>&copy; 2025 jeancorrea.com. Proyecto Educativo.</p>
             </div>
         </footer>
     `;
