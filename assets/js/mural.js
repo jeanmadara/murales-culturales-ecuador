@@ -46,125 +46,73 @@ document.addEventListener('DOMContentLoaded', () => {
     // Render Content
     muralContainer.innerHTML = `
       <div class="scrolly-container">
-        ${isMobile ? `
-        <!-- Mobile Fullscreen Video Hero -->
-        <div class="mobile-video-hero">
-          <video playsinline>
+        <!-- Fullscreen Video Hero (Mobile & Desktop) -->
+        <div class="video-hero">
+          <video autoplay muted loop playsinline controls>
             <source src="../${mural.videoUrl}" type="video/mp4">
             Tu navegador no soporta la etiqueta de video.
           </video>
-          <div class="play-overlay">
-             <div class="play-btn">
-                <span>▶</span>
-             </div>
-             <p class="play-text">Ver Video del Mural</p>
-          </div>
           <div class="scroll-indicator">Desliza para ver más ↓</div>
         </div>
-        ` : ''}
 
-        <!-- Sticky Background Image -->
-        <div class="sticky-background">
-          <img src="../${mural.image}" alt="${mural.title}" class="bg-image" id="hero-image">
-          <div class="overlay" id="hero-overlay"></div>
-          
-          <div class="intro-title" id="intro-title">
-            <span class="culture-tag" style="margin-bottom: 1rem; display: inline-block;">${culture ? culture.name : 'Cultura Desconocida'}</span>
-            <h1>${mural.title}</h1>
-            <p class="scroll-indicator">Desliza para descubrir ↓</p>
+        <!-- Scrollytelling Section (sticky image + scrolling text) -->
+        <div class="scrolly-inner">
+          <!-- Sticky Background Image -->
+          <div class="sticky-background">
+            <img src="../${mural.image}" alt="${mural.title}" class="bg-image" id="hero-image">
+            <div class="overlay" id="hero-overlay"></div>
+            
+            <div class="intro-title" id="intro-title">
+              <span class="culture-tag" style="margin-bottom: 1rem; display: inline-block;">${culture ? culture.name : 'Cultura Desconocida'}</span>
+              <h1>${mural.title}</h1>
+              <p class="scroll-indicator">Desliza para descubrir ↓</p>
+            </div>
           </div>
-        </div>
 
-        <!-- Scrolling Content -->
-        <div class="content-layer">
-          
-          <!-- Spacer for initial clean view -->
-          <div style="height: 100vh;"></div>
+          <!-- Scrolling Content -->
+          <div class="content-layer">
 
-          ${isMobile ? `
-          <!-- Block 0: Title & Culture (Mobile Only) -->
-          <article class="story-card title-card-mobile" data-step="0">
-            <span class="culture-tag">${culture ? culture.name : 'Cultura Desconocida'}</span>
-            <h3>${mural.title}</h3>
-          </article>
-          ` : ''}
-
-          <!-- Block 2: Description -->
-          <article class="story-card" data-step="1">
-            <h2>Arte</h2>
-            <p>${mural.description}</p>
-          </article>
-
-          <!-- Block 3: Culture -->
-          ${culture ? `
-          <article class="story-card" data-step="2">
-            <h2>La Cultura ${culture.name}</h2>
-            <h3>Región: ${culture.region}</h3>
-            <p>${culture.generalDescription}</p>
-          </article>
-          ` : ''}
-
-          <!-- Block 4: Video & Sources -->
-          <article class="story-card" data-step="3">
-            <h2>${isMobile ? 'Fuentes' : 'Multimedia y Fuentes'}</h2>
-            
-            ${!isMobile ? `
-            <div class="video-container" style="margin-bottom: 1.5rem; position: relative;">
-              <video controls style="width: 100%; height: auto; border-radius: 8px;">
-                <source src="../${mural.videoUrl}" type="video/mp4">
-                Tu navegador no soporta la etiqueta de video.
-              </video>
-              <div class="play-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; justify-content: center; align-items: center; cursor: pointer; border-radius: 8px; transition: opacity 0.3s; opacity: 1;">
-                 <div style="background: rgba(230, 57, 70, 0.9); width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-                    <span style="font-size: 2rem; color: white; margin-left: 4px;">▶</span>
-                 </div>
-                 <p style="position: absolute; bottom: 20px; color: white; font-weight: 600; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">Dale Play</p>
-              </div>
-            </div>
+            ${isMobile ? `
+            <!-- Block 0: Title & Culture (Mobile Only) -->
+            <article class="story-card title-card-mobile" data-step="0">
+              <span class="culture-tag">${culture ? culture.name : 'Cultura Desconocida'}</span>
+              <h3>${mural.title}</h3>
+            </article>
             ` : ''}
-            
-            <ul class="sources-list" style="margin-bottom: 1.5rem;">
-              ${mural.sources.map(source => `<li>${source}</li>`).join('')}
-            </ul>
 
-            <div style="text-align: center;">
-              <a href="../index.html" class="btn">← Volver a Piezas</a>
-            </div>
-          </article>
+            <!-- Block 2: Description -->
+            <article class="story-card" data-step="1">
+              <h2>Arte</h2>
+              <p>${mural.description}</p>
+            </article>
 
-          <!-- Block 5: Clean Image (Empty card to trigger view) -->
-          <div class="story-card" data-step="4" style="opacity: 0; pointer-events: none; height: 50vh;"></div>
+            <!-- Block 3: Culture -->
+            ${culture ? `
+            <article class="story-card" data-step="2">
+              <h2>La Cultura ${culture.name}</h2>
+              <h3>Región: ${culture.region}</h3>
+              <p>${culture.generalDescription}</p>
+            </article>
+            ` : ''}
 
+            <!-- Block 4: Sources -->
+            <article class="story-card" data-step="3">
+              <h2>Fuentes</h2>
+              
+              <ul class="sources-list" style="margin-bottom: 1.5rem;">
+                ${mural.sources.map(source => `<li>${source}</li>`).join('')}
+              </ul>
+
+              <div style="text-align: center;">
+                <a href="../index.html" class="btn">← Volver a Piezas</a>
+              </div>
+            </article>
+
+          </div>
         </div>
       </div>
     `;
 
-    // Initialize mobile player events if mobile
-    if (isMobile) {
-      const mobHero = document.querySelector('.mobile-video-hero');
-      if (mobHero) {
-        const video = mobHero.querySelector('video');
-        const overlay = mobHero.querySelector('.play-overlay');
-        if (video && overlay) {
-          overlay.addEventListener('click', () => {
-            if (video.paused) {
-              video.play().then(() => {
-                overlay.style.opacity = '0';
-                overlay.style.pointerEvents = 'none';
-                video.setAttribute('controls', 'true');
-              }).catch(err => {
-                console.error("Error playing video:", err);
-              });
-            }
-          });
-          video.addEventListener('play', () => {
-            overlay.style.opacity = '0';
-            overlay.style.pointerEvents = 'none';
-            video.setAttribute('controls', 'true');
-          });
-        }
-      }
-    }
 
     // Initialize Intersection Observer
     initScrollyObserver();
@@ -182,8 +130,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
 
-          // Check if it is the mobile video hero
-          if (entry.target.classList.contains('mobile-video-hero')) {
+          // Check if it is the video hero
+          if (entry.target.classList.contains('video-hero')) {
             return;
           }
 
@@ -270,22 +218,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           }
 
-          if (step === '4') {
-            // Clean Image View
-            if (heroImage) {
-              heroImage.style.filter = 'none';
-              heroImage.style.transform = 'scale(1)';
-            }
-            if (introTitle) {
-              introTitle.style.opacity = '0'; // Keep title hidden
-            }
-            if (heroOverlay) {
-              heroOverlay.style.opacity = '0'; // Hide overlay to see clear image
-            }
-          }
+
         } else {
           // Logic for when element leaves viewport
-          if (entry.target.classList.contains('mobile-video-hero')) {
+          if (entry.target.classList.contains('video-hero')) {
             const video = entry.target.querySelector('video');
             if (video) {
               video.pause();
@@ -304,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }, observerOptions);
 
-    document.querySelectorAll('.story-card, [data-step="4"], .mobile-video-hero').forEach(card => {
+    document.querySelectorAll('.story-card, .video-hero').forEach(card => {
       observer.observe(card);
     });
 

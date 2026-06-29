@@ -939,6 +939,10 @@ footer {
   color: #f1faee;
 }
 
+.story-card:last-of-type {
+  margin-bottom: 20vh;
+}
+
 .story-card.visible {
   transform: translateY(0);
   opacity: 1;
@@ -988,8 +992,21 @@ footer {
 }
 
 @media (min-width: 768px) {
+  /* Desktop: video hero above, then two-column scrollytelling below */
   .scrolly-container {
     display: flex;
+    flex-direction: column;
+  }
+
+  .video-hero {
+    width: 100%;
+    height: 100vh;
+  }
+
+  /* The sticky section + content layer sit inside a flex-row sub-container */
+  .scrolly-inner {
+    display: flex;
+    flex-direction: row;
   }
 
   .sticky-background {
@@ -1001,9 +1018,8 @@ footer {
 
   .content-layer {
     width: 50%;
-    padding-top: 50vh;
+    padding-top: 90vh;
     margin-top: 0;
-    /* Reset margin-top for desktop */
     margin-left: 0;
     margin-right: 0;
   }
@@ -1015,98 +1031,40 @@ footer {
   }
 }
 
-/* Mobile Video Hero Styles */
-.mobile-video-hero {
-  display: none;
+/* Video Hero Styles (Mobile & Desktop) */
+.video-hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background: #000;
+  position: relative;
+  z-index: 100;
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.7);
-  }
-  70% {
-    transform: scale(1);
-    box-shadow: 0 0 0 15px rgba(230, 57, 70, 0);
-  }
-  100% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(230, 57, 70, 0);
-  }
+.video-hero video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* contain preserves full frame — black bars fill remaining space */
+}
+
+.video-hero .scroll-indicator {
+  position: absolute;
+  bottom: 3vh;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  animation: bounce 2s infinite;
+  z-index: 102;
+  pointer-events: none;
 }
 
 @media (max-width: 767px) {
-  .mobile-video-hero {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100vh;
-    background: #000;
-    position: relative;
-    z-index: 100;
-  }
-
-  .mobile-video-hero video {
-    width: 100%;
-    height: 100%;
+  .video-hero video {
     object-fit: contain;
-  }
-
-  .mobile-video-hero .play-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: opacity 0.3s ease;
-    z-index: 101;
-  }
-
-  .mobile-video-hero .play-btn {
-    background: rgba(230, 57, 70, 0.95);
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 20px rgba(230, 57, 70, 0.5);
-    margin-bottom: 1rem;
-    animation: pulse 2s infinite;
-    transition: transform 0.2s ease;
-  }
-
-  .mobile-video-hero .play-btn span {
-    font-size: 2.5rem;
-    color: white;
-    margin-left: 6px;
-  }
-
-  .mobile-video-hero .play-text {
-    color: white;
-    font-size: 1.2rem;
-    font-weight: 600;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-  }
-
-  .mobile-video-hero .scroll-indicator {
-    position: absolute;
-    bottom: 3vh;
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 0.95rem;
-    font-weight: 600;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-    animation: bounce 2s infinite;
-    z-index: 102;
-    pointer-events: none;
   }
 
   .scrolly-mode .intro-title {
@@ -1116,7 +1074,8 @@ footer {
   .title-card-mobile {
     display: block !important;
     text-align: center;
-    margin-bottom: 80vh; /* Mantener consistencia del scrollytelling */
+    margin-bottom: 80vh;
+    /* Mantener consistencia del scrollytelling */
   }
 
   .title-card-mobile h1 {
@@ -1124,14 +1083,14 @@ footer {
     font-weight: 700;
     color: #f1faee;
     margin-top: 0.5rem;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
   }
 
   .title-card-mobile .culture-tag {
     margin-bottom: 0.5rem;
   }
 
-  /* Ajustes del contenedor en móvil para soportar el flujo del video arriba */
+  /* Ajustes del contenedor en móvil */
   .scrolly-container {
     display: flex;
     flex-direction: column;
