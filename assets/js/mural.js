@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             <!-- Block 2: Description -->
             <article class="story-card" data-step="1">
-              <h2>Arte</h2>
+              <h2>Descripción del bien</h2>
               <p>${mural.description}</p>
             </article>
 
