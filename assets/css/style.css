@@ -1,42 +1,92 @@
-:root {
-  --primary-color: #2c3e50;
-  --accent-color: #e67e22;
-  --bg-color: #f4f6f7;
-  --card-bg: #ffffff;
-  --text-color: #34495e;
-  --text-light: #7f8c8d;
-  --font-main: 'Inter', system-ui, -apple-system, sans-serif;
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --radius: 8px;
-  --container-width: 1200px;
+/* ============================================================
+   Murales Culturales Ecuador — Estética Museográfica Académica
+   Galería Permanente — Museo de Valdivia
+   ============================================================ */
+
+/* --- Fonts --- */
+@font-face {
+  font-family: 'Optima LT Pro';
+  src: url('../fonts/Optima-Bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
 }
 
+/* --- Design Tokens --- */
+:root {
+  /* Primary palette — Tierra Cálida + Bronce Antiguo */
+  --primary-color: #2A1F14;
+  --accent-color: #B8860B;
+  --accent-light: #D4A843;
+  --bg-color: #F0EBE3;
+  --card-bg: #FAF6F0;
+  --text-color: #1C1208;
+  --text-light: #7A6544;
+  --text-muted: #9C8B6E;
+
+  /* Typography */
+  --font-heading: 'Optima LT Pro', Georgia, 'Times New Roman', serif;
+  --font-body: 'Times New Roman', Georgia, serif;
+  --font-ui: 'Optima LT Pro', Georgia, serif;
+
+  /* Spacing */
+  --shadow-sm: 0 1px 3px rgba(42, 31, 20, 0.06);
+  --shadow-md: 0 4px 12px rgba(42, 31, 20, 0.10);
+  --shadow-lg: 0 8px 30px rgba(42, 31, 20, 0.14);
+  --radius: 2px;
+  --radius-lg: 4px;
+  --container-width: 1200px;
+
+  /* Scrollytelling tokens */
+  --story-bg: rgba(26, 18, 10, 0.90);
+  --story-heading: #D4A843;
+  --story-border: rgba(184, 134, 11, 0.20);
+  --story-text: #EDE5D8;
+}
+
+/* --- Reset --- */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+/* --- Base --- */
 body {
-  font-family: var(--font-main);
+  font-family: var(--font-body);
   background-color: var(--bg-color);
   color: var(--text-color);
-  line-height: 1.6;
+  line-height: 1.7;
+  font-size: 1rem;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Layout */
+/* Typography hierarchy */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: bold;
+  line-height: 1.25;
+  color: var(--primary-color);
+}
+
+p, li, span, a, td, th, label {
+  font-family: var(--font-body);
+}
+
+/* --- Layout --- */
 .container {
   max-width: var(--container-width);
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 1.5rem;
 }
 
+/* --- Header --- */
 header {
   background-color: var(--card-bg);
-  box-shadow: var(--shadow-sm);
-  padding: 1rem 0;
-  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--accent-color);
+  padding: 1.25rem 0;
+  margin-bottom: 2.5rem;
 }
 
 header .container {
@@ -45,22 +95,23 @@ header .container {
   align-items: center;
 }
 
-h1 {
-  font-size: 1.5rem;
+header h1 {
+  font-size: 1.35rem;
   color: var(--primary-color);
+  letter-spacing: 0.02em;
 }
 
-h1 a {
+header h1 a {
   text-decoration: none;
   color: inherit;
 }
 
-/* Grid for Murals */
+/* --- Grid for Murals --- */
 .mural-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
-  padding-bottom: 2rem;
+  gap: 2rem;
+  padding-bottom: 3rem;
 }
 
 @media (min-width: 640px) {
@@ -75,78 +126,111 @@ h1 a {
   }
 }
 
-/* Cards */
+/* --- Cards --- */
 .card {
   background: var(--card-bg);
-  border-radius: var(--radius);
+  border: 1px solid rgba(42, 31, 20, 0.08);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
 }
 
 .card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
   box-shadow: var(--shadow-md);
+  border-color: var(--accent-color);
 }
 
 .card-img-container {
   width: 100%;
-  height: 200px;
-  background-color: #ddd;
+  height: 220px;
+  background-color: #D6CCBF;
   overflow: hidden;
+  border-bottom: 3px solid var(--accent-color);
 }
 
 .card-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.card:hover .card-img {
+  transform: scale(1.03);
 }
 
 .card-content {
-  padding: 1.5rem;
+  padding: 1.5rem 1.25rem;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
 }
 
 .card-title {
-  font-size: 1.25rem;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: bold;
   margin-bottom: 0.5rem;
   color: var(--primary-color);
+  letter-spacing: 0.02em;
 }
 
 .card-desc {
-  font-size: 0.9rem;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
   color: var(--text-light);
   margin-bottom: 1rem;
   flex-grow: 1;
+  line-height: 1.65;
 }
 
+/* --- Culture Tag --- */
+.culture-tag {
+  display: inline-block;
+  background-color: var(--accent-color);
+  color: #FAF6F0;
+  padding: 0.2rem 0.7rem;
+  border-radius: var(--radius);
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: bold;
+}
+
+/* --- Buttons --- */
 .btn {
   display: inline-block;
   background-color: var(--primary-color);
-  color: white;
-  padding: 0.5rem 1rem;
+  color: var(--card-bg);
+  padding: 0.55rem 1.2rem;
+  border: 1px solid var(--accent-color);
   border-radius: var(--radius);
   text-decoration: none;
-  font-size: 0.9rem;
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
   text-align: center;
-  transition: background-color 0.2s;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .btn:hover {
-  background-color: #34495e;
+  background-color: var(--accent-color);
+  color: var(--primary-color);
 }
 
-/* Mural Detail Page */
+/* --- Mural Detail Page --- */
 .mural-detail {
   background: var(--card-bg);
-  border-radius: var(--radius);
-  padding: 2rem;
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
   box-shadow: var(--shadow-sm);
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
+  border: 1px solid rgba(42, 31, 20, 0.08);
 }
 
 .mural-header {
@@ -154,19 +238,11 @@ h1 a {
 }
 
 .mural-title {
+  font-family: var(--font-heading);
   font-size: 2rem;
+  font-weight: bold;
   margin-bottom: 0.5rem;
-}
-
-.culture-tag {
-  display: inline-block;
-  background-color: var(--accent-color);
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 50px;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  color: var(--primary-color);
 }
 
 .mural-media {
@@ -176,18 +252,18 @@ h1 a {
 .mural-img-large {
   width: 100%;
   height: auto;
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   margin-bottom: 1rem;
+  border: 1px solid rgba(42, 31, 20, 0.06);
 }
 
 .video-container {
   position: relative;
   padding-bottom: 56.25%;
-  /* 16:9 */
   height: 0;
   overflow: hidden;
-  border-radius: var(--radius);
-  background: #000;
+  border-radius: var(--radius-lg);
+  background: #0A0704;
 }
 
 .video-container iframe {
@@ -210,627 +286,56 @@ h1 a {
 }
 
 .info-section h3 {
-  font-size: 1.2rem;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: bold;
   margin-bottom: 1rem;
   color: var(--primary-color);
-  border-bottom: 2px solid var(--bg-color);
+  border-bottom: 2px solid var(--accent-color);
   padding-bottom: 0.5rem;
 }
 
+/* --- Sources List --- */
 .sources-list {
   list-style: none;
+  padding: 0;
 }
 
 .sources-list li {
   margin-bottom: 0.5rem;
+  font-family: var(--font-body);
   font-size: 0.9rem;
   color: var(--text-light);
 }
 
 .sources-list li::before {
-  content: "•";
+  content: "—";
   color: var(--accent-color);
   display: inline-block;
   width: 1em;
   margin-left: -1em;
+  font-weight: bold;
 }
 
-footer {
-  text-align: center;
-  align-items: center;
-}
-
-h1 {
-  font-size: 1.5rem;
-  color: var(--primary-color);
-}
-
-h1 a {
-  text-decoration: none;
-  color: inherit;
-}
-
-/* Grid for Murals */
-.mural-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-  padding-bottom: 2rem;
-}
-
-@media (min-width: 640px) {
-  .mural-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .mural-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Cards */
-.card {
-  background: var(--card-bg);
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.2s, box-shadow 0.2s;
-  display: flex;
-  flex-direction: column;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-}
-
-.card-img-container {
-  width: 100%;
-  height: 200px;
-  background-color: #ddd;
-  overflow: hidden;
-}
-
-.card-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.card-content {
-  padding: 1.5rem;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.card-title {
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
-  color: var(--primary-color);
-}
-
-.card-desc {
-  font-size: 0.9rem;
-  color: var(--text-light);
-  margin-bottom: 1rem;
-  flex-grow: 1;
-}
-
-.btn {
-  display: inline-block;
-  background-color: var(--primary-color);
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius);
-  text-decoration: none;
-  font-size: 0.9rem;
-  text-align: center;
-  transition: background-color 0.2s;
-}
-
-.btn:hover {
-  background-color: #34495e;
-}
-
-/* Mural Detail Page */
-.mural-detail {
-  background: var(--card-bg);
-  border-radius: var(--radius);
-  padding: 2rem;
-  box-shadow: var(--shadow-sm);
-  margin-bottom: 2rem;
-}
-
-.mural-header {
-  margin-bottom: 2rem;
-}
-
-.mural-title {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-.culture-tag {
-  display: inline-block;
-  background-color: var(--accent-color);
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 50px;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.mural-media {
-  margin-bottom: 2rem;
-}
-
-.mural-img-large {
-  width: 100%;
-  height: auto;
-  border-radius: var(--radius);
-  margin-bottom: 1rem;
-}
-
-.video-container {
-  position: relative;
-  padding-bottom: 56.25%;
-  /* 16:9 */
-  height: 0;
-  overflow: hidden;
-  border-radius: var(--radius);
-  background: #000;
-}
-
-.video-container iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.mural-info {
-  display: grid;
-  gap: 2rem;
-}
-
-@media (min-width: 768px) {
-  .mural-info {
-    grid-template-columns: 2fr 1fr;
-  }
-}
-
-.info-section h3 {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-  color: var(--primary-color);
-  border-bottom: 2px solid var(--bg-color);
-  padding-bottom: 0.5rem;
-}
-
-.sources-list {
-  list-style: none;
-}
-
-.sources-list li {
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
-  color: var(--text-light);
-}
-
-.sources-list li::before {
-  content: "•";
-  color: var(--accent-color);
-  display: inline-block;
-  width: 1em;
-  margin-left: -1em;
-}
-
-footer {
-  text-align: center;
-  align-items: center;
-}
-
-h1 {
-  font-size: 1.5rem;
-  color: var(--primary-color);
-}
-
-h1 a {
-  text-decoration: none;
-  color: inherit;
-}
-
-/* Grid for Murals */
-.mural-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-  padding-bottom: 2rem;
-}
-
-@media (min-width: 640px) {
-  .mural-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .mural-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Cards */
-.card {
-  background: var(--card-bg);
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.2s, box-shadow 0.2s;
-  display: flex;
-  flex-direction: column;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-}
-
-.card-img-container {
-  width: 100%;
-  height: 200px;
-  background-color: #ddd;
-  overflow: hidden;
-}
-
-.card-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.card-content {
-  padding: 1.5rem;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.card-title {
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
-  color: var(--primary-color);
-}
-
-.card-desc {
-  font-size: 0.9rem;
-  color: var(--text-light);
-  margin-bottom: 1rem;
-  flex-grow: 1;
-}
-
-.btn {
-  display: inline-block;
-  background-color: var(--primary-color);
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius);
-  text-decoration: none;
-  font-size: 0.9rem;
-  text-align: center;
-  transition: background-color 0.2s;
-}
-
-.btn:hover {
-  background-color: #34495e;
-}
-
-/* Mural Detail Page */
-.mural-detail {
-  background: var(--card-bg);
-  border-radius: var(--radius);
-  padding: 2rem;
-  box-shadow: var(--shadow-sm);
-  margin-bottom: 2rem;
-}
-
-.mural-header {
-  margin-bottom: 2rem;
-}
-
-.mural-title {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-.culture-tag {
-  display: inline-block;
-  background-color: var(--accent-color);
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 50px;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.mural-media {
-  margin-bottom: 2rem;
-}
-
-.mural-img-large {
-  width: 100%;
-  height: auto;
-  border-radius: var(--radius);
-  margin-bottom: 1rem;
-}
-
-.video-container {
-  position: relative;
-  padding-bottom: 56.25%;
-  /* 16:9 */
-  height: 0;
-  overflow: hidden;
-  border-radius: var(--radius);
-  background: #000;
-}
-
-.video-container iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.mural-info {
-  display: grid;
-  gap: 2rem;
-}
-
-@media (min-width: 768px) {
-  .mural-info {
-    grid-template-columns: 2fr 1fr;
-  }
-}
-
-.info-section h3 {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-  color: var(--primary-color);
-  border-bottom: 2px solid var(--bg-color);
-  padding-bottom: 0.5rem;
-}
-
-.sources-list {
-  list-style: none;
-}
-
-.sources-list li {
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
-  color: var(--text-light);
-}
-
-.sources-list li::before {
-  content: "•";
-  color: var(--accent-color);
-  display: inline-block;
-  width: 1em;
-  margin-left: -1em;
-}
-
-footer {
-  text-align: center;
-  align-items: center;
-}
-
-h1 {
-  font-size: 1.5rem;
-  color: var(--primary-color);
-}
-
-h1 a {
-  text-decoration: none;
-  color: inherit;
-}
-
-/* Grid for Murals */
-.mural-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-  padding-bottom: 2rem;
-}
-
-@media (min-width: 640px) {
-  .mural-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .mural-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Cards */
-.card {
-  background: var(--card-bg);
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.2s, box-shadow 0.2s;
-  display: flex;
-  flex-direction: column;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-}
-
-.card-img-container {
-  width: 100%;
-  height: 200px;
-  background-color: #ddd;
-  overflow: hidden;
-}
-
-.card-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.card-content {
-  padding: 1.5rem;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.card-title {
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
-  color: var(--primary-color);
-}
-
-.card-desc {
-  font-size: 0.9rem;
-  color: var(--text-light);
-  margin-bottom: 1rem;
-  flex-grow: 1;
-}
-
-.btn {
-  display: inline-block;
-  background-color: var(--primary-color);
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius);
-  text-decoration: none;
-  font-size: 0.9rem;
-  text-align: center;
-  transition: background-color 0.2s;
-}
-
-.btn:hover {
-  background-color: #34495e;
-}
-
-/* Mural Detail Page */
-.mural-detail {
-  background: var(--card-bg);
-  border-radius: var(--radius);
-  padding: 2rem;
-  box-shadow: var(--shadow-sm);
-  margin-bottom: 2rem;
-}
-
-.mural-header {
-  margin-bottom: 2rem;
-}
-
-.mural-title {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-.culture-tag {
-  display: inline-block;
-  background-color: var(--accent-color);
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 50px;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.mural-media {
-  margin-bottom: 2rem;
-}
-
-.mural-img-large {
-  width: 100%;
-  height: auto;
-  border-radius: var(--radius);
-  margin-bottom: 1rem;
-}
-
-.video-container {
-  position: relative;
-  padding-bottom: 56.25%;
-  /* 16:9 */
-  height: 0;
-  overflow: hidden;
-  border-radius: var(--radius);
-  background: #000;
-}
-
-.video-container iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.mural-info {
-  display: grid;
-  gap: 2rem;
-}
-
-@media (min-width: 768px) {
-  .mural-info {
-    grid-template-columns: 2fr 1fr;
-  }
-}
-
-.info-section h3 {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-  color: var(--primary-color);
-  border-bottom: 2px solid var(--bg-color);
-  padding-bottom: 0.5rem;
-}
-
-.sources-list {
-  list-style: none;
-}
-
-.sources-list li {
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
-  color: var(--text-light);
-}
-
-.sources-list li::before {
-  content: "•";
-  color: var(--accent-color);
-  display: inline-block;
-  width: 1em;
-  margin-left: -1em;
-}
-
+/* --- Footer --- */
 footer {
   text-align: center;
   padding: 2rem 0;
-  color: var(--text-light);
-  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  border-top: 1px solid rgba(42, 31, 20, 0.10);
+  margin-top: 2rem;
 }
 
-/* Scrollytelling Styles */
+
+/* ============================================================
+   SCROLLYTELLING MODE — Oscuro Cinematográfico + Bronce
+   ============================================================ */
+
 .scrolly-mode {
-  background-color: #000;
-  color: #f1faee;
+  background-color: #0A0704;
+  color: var(--story-text);
 }
 
 /* Hide standard header/footer in scrolly mode */
@@ -851,6 +356,7 @@ footer {
   border-radius: 0;
   padding: 0;
   box-shadow: none;
+  border: none;
   margin: 0;
   max-width: 100%;
 }
@@ -874,7 +380,7 @@ footer {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: filter 0.5s ease, transform 0.5s ease;
+  transition: filter 0.6s ease, transform 0.6s ease;
 }
 
 .overlay {
@@ -883,7 +389,7 @@ footer {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.8) 100%);
+  background: linear-gradient(to bottom, rgba(10, 7, 4, 0) 40%, rgba(10, 7, 4, 0.85) 100%);
   z-index: 2;
 }
 
@@ -892,7 +398,6 @@ footer {
   z-index: 10;
   padding: 2rem;
   margin-top: -80vh;
-  /* Start overlapping before the end */
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
@@ -905,38 +410,49 @@ footer {
   width: 100%;
   z-index: 5;
   text-align: center;
-  color: white;
+  color: var(--story-text);
   transition: opacity 0.5s ease;
   padding: 0 2rem;
   pointer-events: none;
 }
 
 .intro-title h1 {
+  font-family: var(--font-heading);
   font-size: 3rem;
-  font-weight: 700;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  font-weight: bold;
+  text-shadow: 0 2px 8px rgba(10, 7, 4, 0.7);
   margin-bottom: 1rem;
-  color: white;
+  color: var(--story-text);
+  letter-spacing: 0.02em;
+}
+
+.intro-title .culture-tag {
+  background-color: var(--accent-color);
+  color: #FAF6F0;
+  border: none;
 }
 
 .scroll-indicator {
   animation: bounce 2s infinite;
   font-size: 0.9rem;
-  opacity: 0.8;
+  opacity: 0.7;
+  font-family: var(--font-body);
+  letter-spacing: 0.05em;
 }
 
+/* --- Story Cards --- */
 .story-card {
-  background: rgba(29, 53, 87, 0.85);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 2rem;
+  background: var(--story-bg);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
   margin-bottom: 80vh;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--story-border);
   transform: translateY(50px);
   opacity: 0;
   transition: all 0.8s ease;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  color: #f1faee;
+  box-shadow: 0 10px 40px rgba(10, 7, 4, 0.6);
+  color: var(--story-text);
 }
 
 .story-card:last-of-type {
@@ -949,50 +465,72 @@ footer {
 }
 
 .story-card h2 {
-  color: #e63946;
-  margin-bottom: 1rem;
-  font-size: 1.8rem;
+  font-family: var(--font-heading);
+  color: var(--story-heading);
+  margin-bottom: 1.25rem;
+  font-size: 1.7rem;
+  font-weight: bold;
+  letter-spacing: 0.02em;
 }
 
 .story-card h3 {
-  color: #e63946;
+  font-family: var(--font-heading);
+  color: var(--story-heading);
   margin-bottom: 0.5rem;
-  font-size: 1.2rem;
+  font-size: 1.15rem;
+  font-weight: bold;
+}
+
+.story-card .culture-tag {
+  background-color: var(--accent-color);
+  color: #FAF6F0;
+  border: 1px solid var(--accent-light);
 }
 
 .story-card p {
-  line-height: 1.6;
+  font-family: var(--font-body);
+  line-height: 1.75;
   margin-bottom: 1rem;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
+  color: var(--story-text);
 }
 
 .story-card .btn {
-  background: #e63946;
-  color: white;
+  background: var(--accent-color);
+  color: var(--primary-color);
+  border: 1px solid var(--accent-light);
   margin-top: 1rem;
 }
 
-@keyframes bounce {
+.story-card .btn:hover {
+  background: var(--accent-light);
+  color: var(--primary-color);
+}
 
-  0%,
-  20%,
-  50%,
-  80%,
-  100% {
+.story-card .sources-list li {
+  color: var(--story-text);
+  opacity: 0.8;
+}
+
+.story-card .sources-list li::before {
+  color: var(--accent-color);
+}
+
+/* --- Bounce Animation --- */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
     transform: translateY(0);
   }
-
   40% {
     transform: translateY(-10px);
   }
-
   60% {
     transform: translateY(-5px);
   }
 }
 
+/* --- Desktop Scrollytelling --- */
 @media (min-width: 768px) {
-  /* Desktop: video hero above, then two-column scrollytelling below */
   .scrolly-container {
     display: flex;
     flex-direction: column;
@@ -1003,7 +541,6 @@ footer {
     height: 100vh;
   }
 
-  /* The sticky section + content layer sit inside a flex-row sub-container */
   .scrolly-inner {
     display: flex;
     flex-direction: row;
@@ -1031,7 +568,7 @@ footer {
   }
 }
 
-/* Video Hero Styles (Mobile & Desktop) */
+/* --- Video Hero (Mobile & Desktop) --- */
 .video-hero {
   display: flex;
   flex-direction: column;
@@ -1039,7 +576,7 @@ footer {
   align-items: center;
   width: 100%;
   height: 100vh;
-  background: #000;
+  background: #0A0704;
   position: relative;
   z-index: 100;
 }
@@ -1047,21 +584,23 @@ footer {
 .video-hero video {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* contain preserves full frame — black bars fill remaining space */
+  object-fit: contain;
 }
 
 .video-hero .scroll-indicator {
   position: absolute;
   bottom: 3vh;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(237, 229, 216, 0.7);
+  font-family: var(--font-body);
   font-size: 0.95rem;
-  font-weight: 600;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 2px 6px rgba(10, 7, 4, 0.9);
   animation: bounce 2s infinite;
   z-index: 102;
   pointer-events: none;
+  letter-spacing: 0.05em;
 }
 
+/* --- Mobile Scrollytelling --- */
 @media (max-width: 767px) {
   .video-hero video {
     object-fit: contain;
@@ -1075,22 +614,25 @@ footer {
     display: block !important;
     text-align: center;
     margin-bottom: 80vh;
-    /* Mantener consistencia del scrollytelling */
   }
 
-  .title-card-mobile h1 {
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: #f1faee;
+  .title-card-mobile h3 {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--story-text);
     margin-top: 0.5rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    text-shadow: 0 2px 6px rgba(10, 7, 4, 0.7);
   }
 
   .title-card-mobile .culture-tag {
     margin-bottom: 0.5rem;
   }
 
-  /* Ajustes del contenedor en móvil */
+  .title-card-mobile p {
+    text-align: justify;
+  }
+
   .scrolly-container {
     display: flex;
     flex-direction: column;
@@ -1099,5 +641,9 @@ footer {
   .content-layer {
     margin-top: 0;
     padding-top: 2rem;
+  }
+
+  .story-card {
+    padding: 1.75rem;
   }
 }
