@@ -76,22 +76,23 @@ document.addEventListener('DOMContentLoaded', () => {
             <!-- Block 0: Title & Culture (Mobile Only) -->
             <article class="story-card title-card-mobile" data-step="0">
               <span class="culture-tag">${culture ? culture.name : 'Cultura Desconocida'}</span>
-              <h3>${mural.title}</h3>
+              <h3>Región: ${culture.region}</h3>
+              ${culture && culture.generalDescription ? `<p style="text-align: left;">${culture.generalDescription}</p>` : ''}
             </article>
             ` : ''}
 
             <!-- Block 2: Description -->
             <article class="story-card" data-step="1">
               <h2>Descripción del bien</h2>
+              <h3>${mural.title}</h3>
               <p>${mural.description}</p>
             </article>
 
-            <!-- Block 3: Culture -->
+            <!-- Block 3: Uso -->
             ${culture ? `
             <article class="story-card" data-step="2">
-              <h2>La Cultura ${culture.name}</h2>
-              <h3>Región: ${culture.region}</h3>
-              <p>${culture.generalDescription}</p>
+              <h2>Posible función y uso</h2>
+              <p>${mural.uso}</p>
             </article>
             ` : ''}
 
