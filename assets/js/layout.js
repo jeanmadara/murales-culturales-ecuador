@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const footerHTML = `
         <footer>
             <div class="container">
-                <p>&copy; 2025 jeancorrea.com. Proyecto Educativo.</p>
+                <p>&copy; 2026 <a href="https://jeancorrea.com" target="_blank" rel="noopener">jeancorrea.com</a>. Proyecto Educativo.</p>
             </div>
         </footer>
     `;
