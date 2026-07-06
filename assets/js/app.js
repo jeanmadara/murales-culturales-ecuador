@@ -3,27 +3,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!grid) return;
 
-  fetch('data/murales.json')
-    .then(response => {
-      if (!response.ok) throw new Error('Error loading murales.json');
-      return response.json();
-    })
-    .then(murales => {
-      renderMurales(murales);
+  Promise.all([
+    fetch('data/murales.json').then(r => { if (!r.ok) throw new Error('Error loading murales.json'); return r.json(); }),
+    fetch('data/culturas.json').then(r => { if (!r.ok) throw new Error('Error loading culturas.json'); return r.json(); })
+  ])
+    .then(([murales, culturas]) => {
+      const cultureNames = Object.fromEntries(
+        Object.entries(culturas).map(([id, data]) => [id, data.name])
+      );
+      renderMurales(murales, cultureNames);
     })
     .catch(error => {
       console.error('Error:', error);
-      grid.innerHTML = '<p class="error">Error cargando los murales. Por favor intenta más tarde.</p>';
+      grid.innerHTML = '<p class="error">Error cargando los datos. Por favor intenta más tarde.</p>';
     });
 
-  function renderMurales(murales) {
+  function renderMurales(murales, cultureNames) {
     grid.innerHTML = murales.map(mural => `
       <article class="card">
         <div class="card-img-container">
           <img src="${mural.image}" alt="${mural.title}" class="card-img" loading="lazy">
         </div>
         <div class="card-content">
-          <h2 class="card-title">${mural.title}</h2>
+          <h2 class="card-title">${cultureNames[mural.cultureId] || mural.cultureId.toUpperCase().replace('-', ' ')}</h2>
           <p class="card-desc">${truncateText(mural.description, 100)}</p>
           <a href="murales/${mural.id.replace('-', '')}.html" class="btn">Ver Pieza</a>
         </div>
