@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!grid) return;
 
   Promise.all([
-    fetch('data/murales.json').then(r => { if (!r.ok) throw new Error('Error loading murales.json'); return r.json(); }),
-    fetch('data/culturas.json').then(r => { if (!r.ok) throw new Error('Error loading culturas.json'); return r.json(); })
+    fetch('data/murales.json', { headers: { 'Accept': 'application/json; charset=utf-8' } }).then(r => { if (!r.ok) throw new Error('Error loading murales.json'); return r.json(); }),
+    fetch('data/culturas.json', { headers: { 'Accept': 'application/json; charset=utf-8' } }).then(r => { if (!r.ok) throw new Error('Error loading culturas.json'); return r.json(); })
   ])
     .then(([murales, culturas]) => {
       const cultureNames = Object.fromEntries(
