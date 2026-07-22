@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="scrolly-container">
         <!-- Fullscreen Video Hero (Mobile & Desktop) -->
         <div class="video-hero">
-          <video autoplay muted loop playsinline controls>
+          <video autoplay muted loop playsinline controls preload="metadata">
             <source src="../${mural.videoUrl}" type="video/mp4">
             Tu navegador no soporta la etiqueta de video.
           </video>
@@ -59,7 +59,21 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="scrolly-inner">
           <!-- Sticky Background Image -->
           <div class="sticky-background">
-            <img src="../${mural.image}" alt="${mural.title}" class="bg-image" id="hero-image">
+            <picture>
+              <!-- Variante full (1600px) para pantalla completa en paginas de detalle -->
+              <source srcset="../${mural.image.replace(/\.png$/i, '-full.webp')}" type="image/webp">
+              <!-- Fallback PNG original (alta resolución) -->
+              <img
+                src="../${mural.image}"
+                alt="${mural.title}"
+                class="bg-image"
+                id="hero-image"
+                width="1600"
+                height="1067"
+                decoding="async"
+                fetchpriority="high"
+              >
+            </picture>
             <div class="overlay" id="hero-overlay"></div>
             
             <div class="intro-title" id="intro-title">
@@ -81,14 +95,14 @@ document.addEventListener('DOMContentLoaded', () => {
             </article>
             ` : ''}
 
-            <!-- Block 2: Description -->
+            <!-- Block 1: Description -->
             <article class="story-card" data-step="1">
               <h2>Descripción del bien</h2>
               <h3>${mural.title}</h3>
               <p>${mural.description}</p>
             </article>
 
-            <!-- Block 3: Uso -->
+            <!-- Block 2: Uso -->
             ${culture ? `
             <article class="story-card" data-step="2">
               <h2>Posible función y uso</h2>
@@ -96,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </article>
             ` : ''}
 
-            <!-- Block 4: Sources -->
+            <!-- Block 3: Sources -->
             <article class="story-card" data-step="3">
               <h2>Fuentes</h2>
               
@@ -113,7 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       </div>
     `;
-
 
     // Initialize Intersection Observer
     initScrollyObserver();
@@ -138,87 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           // Dynamic effects based on step
           const step = entry.target.dataset.step;
-          const heroImage = document.getElementById('hero-image');
-          const introTitle = document.getElementById('intro-title');
-          const heroOverlay = document.getElementById('hero-overlay');
-
-          if (step === '0') {
-            // Title Card View (Mobile only)
-            if (heroImage) {
-              heroImage.style.filter = 'none';
-              heroImage.style.transform = 'scale(1)';
-            }
-            if (heroOverlay) {
-              heroOverlay.style.opacity = '0.5';
-            }
-            if (introTitle) {
-              introTitle.style.opacity = '0';
-            }
-          }
-
-          if (step === '1') {
-            // Description View
-            if (heroImage) {
-              heroImage.style.filter = 'blur(4px) brightness(0.6)';
-              heroImage.style.transform = 'scale(1.1)';
-            }
-            if (introTitle) {
-              introTitle.style.opacity = '0';
-            }
-            if (heroOverlay) {
-              heroOverlay.style.opacity = '1';
-            }
-          }
-
-          if (step === '2') {
-            // Culture View
-            if (heroImage) {
-              heroImage.style.filter = 'blur(8px) brightness(0.4) sepia(0.5)';
-              heroImage.style.transform = 'scale(1.2)';
-            }
-          }
-
-          if (step === '3') {
-            // Video View (Desktop only)
-            if (heroImage) {
-              heroImage.style.filter = 'blur(6px) brightness(0.3)';
-              heroImage.style.transform = 'scale(1.1)';
-            }
-
-            // Autoplay video logic
-            const video = entry.target.querySelector('video');
-            const overlay = entry.target.querySelector('.play-overlay');
-
-            if (video && overlay) {
-              // Setup manual click handler if not already present
-              if (!overlay.hasAttribute('data-initialized')) {
-                overlay.setAttribute('data-initialized', 'true');
-                overlay.addEventListener('click', () => {
-                  video.play();
-                  overlay.style.opacity = '0';
-                  overlay.style.pointerEvents = 'none';
-                });
-                // Also hide overlay if user plays via native controls
-                video.addEventListener('play', () => {
-                  overlay.style.opacity = '0';
-                  overlay.style.pointerEvents = 'none';
-                });
-              }
-
-              // Attempt autoplay
-              video.play().then(() => {
-                // Success: Hide overlay
-                overlay.style.opacity = '0';
-                overlay.style.pointerEvents = 'none';
-              }).catch(e => {
-                console.log('Autoplay prevented, showing play button:', e);
-                // Fail: Keep overlay visible
-                overlay.style.opacity = '1';
-                overlay.style.pointerEvents = 'auto';
-              });
-            }
-          }
-
+          applyStepEffect(step);
 
         } else {
           // Logic for when element leaves viewport
@@ -245,13 +178,69 @@ document.addEventListener('DOMContentLoaded', () => {
       observer.observe(card);
     });
 
-    // Reset view when scrolling to top
-    window.addEventListener('scroll', () => {
-      if (window.scrollY < 50) {
-        const heroImage = document.getElementById('hero-image');
-        const introTitle = document.getElementById('intro-title');
-        const heroOverlay = document.getElementById('hero-overlay');
+    // Cache de referencias DOM — evitar querySelector en cada evento de scroll
+    const heroImage = document.getElementById('hero-image');
+    const introTitle = document.getElementById('intro-title');
+    const heroOverlay = document.getElementById('hero-overlay');
 
+    // Función que aplica efectos visuales por step (llamada desde el observer, no en scroll)
+    function applyStepEffect(step) {
+      if (step === '0') {
+        // Title Card View (Mobile only)
+        if (heroImage) {
+          heroImage.style.filter = 'none';
+          heroImage.style.transform = 'scale(1)';
+        }
+        if (heroOverlay) {
+          heroOverlay.style.opacity = '0.5';
+        }
+        if (introTitle) {
+          introTitle.style.opacity = '0';
+        }
+      }
+
+      if (step === '1') {
+        // Description View
+        if (heroImage) {
+          heroImage.style.filter = 'blur(4px) brightness(0.6)';
+          heroImage.style.transform = 'scale(1.1)';
+        }
+        if (introTitle) {
+          introTitle.style.opacity = '0';
+        }
+        if (heroOverlay) {
+          heroOverlay.style.opacity = '1';
+        }
+      }
+
+      if (step === '2') {
+        // Culture View
+        if (heroImage) {
+          heroImage.style.filter = 'blur(8px) brightness(0.4) sepia(0.5)';
+          heroImage.style.transform = 'scale(1.2)';
+        }
+      }
+
+      if (step === '3') {
+        // Sources View
+        if (heroImage) {
+          heroImage.style.filter = 'blur(6px) brightness(0.3)';
+          heroImage.style.transform = 'scale(1.1)';
+        }
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // Scroll listener optimizado:
+    // 1. passive: true  → permite al navegador hacer scroll sin esperar al JS
+    // 2. requestAnimationFrame → asegura que el trabajo corra en el frame correcto
+    // 3. Flag de throttle → evita encolar múltiples frames en el mismo tick
+    // -------------------------------------------------------------------------
+    let rafPending = false;
+
+    function onScrollTopReset() {
+      // Solo actuar cuando el usuario vuelve al inicio de la página
+      if (window.scrollY < 50) {
         if (heroImage) {
           heroImage.style.filter = 'none';
           heroImage.style.transform = 'scale(1)';
@@ -263,6 +252,15 @@ document.addEventListener('DOMContentLoaded', () => {
           heroOverlay.style.opacity = '1';
         }
       }
-    });
+    }
+
+    window.addEventListener('scroll', () => {
+      if (rafPending) return; // Saltar si ya hay un frame pendiente
+      rafPending = true;
+      requestAnimationFrame(() => {
+        onScrollTopReset();
+        rafPending = false;
+      });
+    }, { passive: true }); // passive:true es clave para no bloquear el scroll
   }
 });

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generador de Códigos QR de Alta Resolución — Herencia Ancestral</title>
+
+  <!-- Preload Font -->
+  <link rel="preload" href="../assets/fonts/Optima-Bold.otf" as="font" type="font/otf" crossorigin="anonymous">
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <!-- QRCodeStyling: Generador vectorial HD con soporte para margen/quiet zone y canvas HD -->
+  <script src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+
+  <style>
+    .admin-container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .admin-header {
+      border-bottom: 2px solid var(--accent-color);
+      padding-bottom: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .admin-header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .admin-header p {
+      color: var(--text-light);
+    }
+
+    .config-box {
+      background: var(--card-bg);
+      border: 1px solid rgba(42, 31, 20, 0.15);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin-bottom: 2.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .config-box label {
+      font-weight: bold;
+      font-family: var(--font-ui);
+      color: var(--primary-color);
+    }
+
+    .config-box input[type="text"] {
+      padding: 0.5rem 0.75rem;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      border: 1px solid var(--accent-color);
+      border-radius: var(--radius);
+      min-width: 320px;
+      background: #FFF;
+    }
+
+    .qr-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .qr-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(42, 31, 20, 0.12);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .qr-card.pdf-card {
+      border: 2px solid var(--accent-color);
+      background: #FDFBF7;
+    }
+
+    .qr-canvas-wrapper {
+      background: #FFFFFF;
+      padding: 1.25rem;
+      border-radius: 8px;
+      border: 1px solid rgba(42, 31, 20, 0.15);
+      margin: 1rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .qr-canvas-wrapper canvas, .qr-canvas-wrapper svg {
+      max-width: 220px !important;
+      height: auto !important;
+      display: block;
+    }
+
+    .qr-title {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      color: var(--primary-color);
+      margin-bottom: 0.25rem;
+    }
+
+    .qr-subtitle {
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      color: var(--accent-color);
+      text-transform: uppercase;
+      font-weight: bold;
+      letter-spacing: 0.05em;
+    }
+
+    .qr-url {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      word-break: break-all;
+      margin: 0.5rem 0 1rem 0;
+      font-family: monospace;
+      max-width: 260px;
+    }
+
+    .btn-download {
+      background: var(--primary-color);
+      color: #FAF6F0;
+      border: 1px solid var(--accent-color);
+      padding: 0.55rem 1.2rem;
+      font-size: 0.88rem;
+      cursor: pointer;
+      border-radius: var(--radius);
+      font-family: var(--font-ui);
+      transition: all 0.2s ease;
+      font-weight: bold;
+    }
+
+    .btn-download:hover {
+      background: var(--accent-color);
+      color: var(--primary-color);
+    }
+
+    @media print {
+      header, footer, .config-box, .btn-download, .admin-header p {
+        display: none !important;
+      }
+      .admin-container {
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      .qr-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5cm;
+      }
+      .qr-card {
+        page-break-inside: avoid;
+        border: 1px solid #333;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <h1><a href="../index.html">Herencia Ancestral</a></h1>
+    </div>
+  </header>
+
+  <main class="admin-container">
+    <div class="admin-header">
+      <h1>Administrador de Códigos QR (Alta Resistencia y Legibilidad)</h1>
+      <p>Códigos QR vectoriales optimizados a 1000px de alta resolución con zona de silencio (Quiet Zone) para garantizar lectura instantánea por la cámara.</p>
+    </div>
+
+    <div class="config-box">
+      <div>
+        <label for="base-url-input">Dominio base de producción:</label>
+        <input type="text" id="base-url-input" value="https://herenciaancestral.org">
+      </div>
+      <div>
+        <button class="btn" id="btn-print-all" onclick="window.print()">🖨️ Imprimir todos los QR</button>
+      </div>
+    </div>
+
+    <div id="qr-grid-container" class="qr-grid">
+      <!-- Se genera dinámicamente mediante JS -->
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 <a href="https://jeancorrea.com" target="_blank" rel="noopener">jeancorrea.com</a>. Proyecto Educativo.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const grid = document.getElementById('qr-grid-container');
+      const baseUrlInput = document.getElementById('base-url-input');
+      const pdfFileName = 'CÉDULAS DE PIEZAS ARQ_SELECCIÓN FOTOGRÁFICA_FINAL.pdf';
+
+      let murales = [];
+      let culturas = {};
+
+      try {
+        const [muralesRes, culturasRes] = await Promise.all([
+          fetch('../data/murales.json').then(r => r.json()),
+          fetch('../data/culturas.json').then(r => r.json())
+        ]);
+        murales = muralesRes;
+        culturas = culturasRes;
+      } catch (err) {
+        console.error('Error cargando JSON data:', err);
+      }
+
+      function generateQRCards() {
+        grid.innerHTML = '';
+        const domain = baseUrlInput.value.replace(/\/+$/, '');
+
+        // 1. QR para el PDF
+        const pdfUrl = `${domain}/assets/pdf/${encodeURIComponent(pdfFileName)}`;
+        createQRCard({
+          id: 'pdf-qr',
+          title: 'Catálogo de Cédulas Completo',
+          subtitle: 'Descarga PDF Oficial',
+          url: pdfUrl,
+          filename: 'PDF_Catalogo.png',
+          isPdf: true
+        });
+
+        // 2. Ordenar murales por número
+        const sortedMurales = [...murales].sort((a, b) => {
+          const numA = parseInt(a.id.replace(/\D/g, ''), 10);
+          const numB = parseInt(b.id.replace(/\D/g, ''), 10);
+          return numA - numB;
+        });
+
+        // 3. QR para los 10 murales
+        sortedMurales.forEach(mural => {
+          const muralNum = mural.id.replace('mural-', '');
+          const culture = culturas[mural.cultureId];
+          const cultureName = culture ? culture.name : mural.cultureId;
+          const targetUrl = `${domain}/murales/mural${muralNum}.html`;
+
+          createQRCard({
+            id: `qr-${mural.id}`,
+            title: `Mural ${muralNum}: ${mural.title}`,
+            subtitle: cultureName,
+            url: targetUrl,
+            filename: `${cultureName}.png`,
+            isPdf: false
+          });
+        });
+      }
+
+      function createQRCard({ id, title, subtitle, url, filename, isPdf }) {
+        const card = document.createElement('article');
+        card.className = `qr-card ${isPdf ? 'pdf-card' : ''}`;
+
+        card.innerHTML = `
+          <span class="qr-subtitle">${subtitle}</span>
+          <h2 class="qr-title">${title}</h2>
+          <div class="qr-canvas-wrapper" id="canvas-${id}"></div>
+          <div class="qr-url">${url}</div>
+          <button class="btn-download" id="dl-${id}">⬇️ Descargar PNG Alta Res (1000px)</button>
+        `;
+
+        grid.appendChild(card);
+
+        // Configuración de QRCodeStyling:
+        // - Render a 1000x1000px (Súper nítido e imprimible en imprenta)
+        // - Margin: 20px (Quiet Zone blanco reglamentario para escáneres de celular)
+        // - Nivel de corrección de error M (Medium ~15%) para mayor contraste entre módulos
+        const qrCode = new QRCodeStyling({
+          width: 1000,
+          height: 1000,
+          type: "canvas",
+          data: url,
+          margin: 25,
+          qrOptions: {
+            typeNumber: 0,
+            mode: "Byte",
+            errorCorrectionLevel: "M"
+          },
+          dotsOptions: {
+            color: "#1C1208",
+            type: "square"
+          },
+          backgroundOptions: {
+            color: "#FFFFFF"
+          },
+          cornersSquareOptions: {
+            color: "#1C1208",
+            type: "square"
+          },
+          cornersDotOptions: {
+            color: "#1C1208",
+            type: "square"
+          }
+        });
+
+        const wrapper = document.getElementById(`canvas-${id}`);
+        qrCode.append(wrapper);
+
+        // Descarga directa a 1000px PNG
+        document.getElementById(`dl-${id}`).addEventListener('click', () => {
+          qrCode.download({ name: filename.replace('.png', ''), extension: 'png' });
+        });
+      }
+
+      baseUrlInput.addEventListener('input', () => {
+        generateQRCards();
+      });
+
+      generateQRCards();
+    });
+  </script>
+</body>
+
+</html>

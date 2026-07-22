@@ -2,21 +2,41 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Herencia Ancestral</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Herencia Ancestral — Galería permanente de murales y bienes culturales del Ecuador prehispánico. Explora las culturas Valdivia, Machalilla, Chorrera y más.">
+
+  <title>Herencia Ancestral — Galería de Murales Culturales del Ecuador</title>
+
+  <!-- Preload del font crítico para evitar FOUT -->
+  <link rel="preload" href="assets/fonts/Optima-Bold.otf" as="font" type="font/otf" crossorigin="anonymous">
+
+  <!-- CSS principal — render-blocking mínimo -->
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
-    <main class="container">
-        <div id="mural-grid" class="mural-grid">
-            <p style="text-align: center; grid-column: 1/-1;">Cargando fotografías...</p>
-        </div>
-    </main>
+  <!-- Header estático: elimina el CLS causado por layout.js en el index -->
+  <header>
+    <div class="container">
+      <h1><a href="index.html">Herencia Ancestral</a></h1>
+    </div>
+  </header>
 
-    <script src="assets/js/layout.js"></script>
-    <script src="assets/js/app.js"></script>
+  <main class="container">
+    <div id="mural-grid" class="mural-grid">
+      <p style="text-align: center; grid-column: 1/-1;">Cargando fotografías...</p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 <a href="https://jeancorrea.com" target="_blank" rel="noopener">jeancorrea.com</a>. Proyecto Educativo.</p>
+    </div>
+  </footer>
+
+  <!-- app.js: NO necesita layout.js en el index (header ya es estático) -->
+  <script src="assets/js/app.js"></script>
 </body>
 
 </html>

@@ -38,7 +38,7 @@
   --container-width: 1200px;
 
   /* Scrollytelling tokens */
-  --story-bg: rgba(26, 18, 10, 0.90);
+  --story-bg: rgba(26, 18, 10, 0.88);
   --story-heading: #D4A843;
   --story-border: rgba(184, 134, 11, 0.20);
   --story-text: #EDE5D8;
@@ -52,6 +52,11 @@
 }
 
 /* --- Base --- */
+html {
+  /* Smooth scrolling sin bloquear el hilo principal */
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: var(--font-body);
   background-color: var(--bg-color);
@@ -60,6 +65,8 @@ body {
   font-size: 1rem;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Evita reflows al aparecer scrollbar */
+  overflow-y: scroll;
 }
 
 /* Typography hierarchy */
@@ -87,6 +94,8 @@ header {
   border-bottom: 2px solid var(--accent-color);
   padding: 1.25rem 0;
   margin-bottom: 2.5rem;
+  /* Evitar repaint al hacer scroll */
+  contain: layout style;
 }
 
 header .container {
@@ -112,6 +121,8 @@ header h1 a {
   grid-template-columns: 1fr;
   gap: 2rem;
   padding-bottom: 3rem;
+  /* Permite al navegador skip render de tarjetas fuera del viewport */
+  contain: layout;
 }
 
 @media (min-width: 640px) {
@@ -133,9 +144,14 @@ header h1 a {
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* Solo animar transform y box-shadow — no layout */
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   display: flex;
   flex-direction: column;
+  /* Aislar repaint de cada card */
+  contain: layout style;
+  /* Promover a su propio compositor layer solo al hover */
+  will-change: transform;
 }
 
 .card:hover {
@@ -150,13 +166,18 @@ header h1 a {
   background-color: #D6CCBF;
   overflow: hidden;
   border-bottom: 3px solid var(--accent-color);
+  /* Aislar el repaint de la imagen del resto de la card */
+  contain: strict;
 }
 
 .card-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* Solo transform — no filter — en hover del grid */
   transition: transform 0.4s ease;
+  /* La imagen es siempre visible; no promover con will-change aquí
+     para no desperdiciar GPU memory en 10 imágenes simultáneas */
 }
 
 .card:hover .card-img {
@@ -326,6 +347,7 @@ footer {
   font-size: 0.88rem;
   border-top: 1px solid rgba(42, 31, 20, 0.10);
   margin-top: 2rem;
+  contain: layout style;
 }
 
 
@@ -374,13 +396,20 @@ footer {
   width: 100%;
   overflow: hidden;
   z-index: 1;
+  /* Promover a compositor layer para que el sticky no cause repaints */
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 .bg-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* Usar solo transform para movimiento; filter se aplica desde JS
+     y solo cuando cambia el step, no en cada frame de scroll */
   transition: filter 0.6s ease, transform 0.6s ease;
+  /* GPU layer para la imagen de fondo */
+  will-change: filter, transform;
 }
 
 .overlay {
@@ -391,6 +420,9 @@ footer {
   height: 100%;
   background: linear-gradient(to bottom, rgba(10, 7, 4, 0) 40%, rgba(10, 7, 4, 0.85) 100%);
   z-index: 2;
+  /* Solo transición en opacity para el overlay */
+  transition: opacity 0.5s ease;
+  will-change: opacity;
 }
 
 .content-layer {
@@ -414,6 +446,7 @@ footer {
   transition: opacity 0.5s ease;
   padding: 0 2rem;
   pointer-events: none;
+  will-change: opacity;
 }
 
 .intro-title h1 {
@@ -442,17 +475,23 @@ footer {
 
 /* --- Story Cards --- */
 .story-card {
+  /* Reemplazar backdrop-filter:blur por fondo semiopaco sólido en el estado base.
+     backdrop-filter es muy costoso: fuerza un repaint de todo lo que está detrás.
+     Usamos un fondo sólido semiopaco que visualmente es casi idéntico pero sin costo GPU. */
   background: var(--story-bg);
-  backdrop-filter: blur(12px);
   border-radius: var(--radius-lg);
   padding: 2.5rem;
   margin-bottom: 80vh;
   border: 1px solid var(--story-border);
+  /* Estado inicial: oculto hacia abajo */
   transform: translateY(50px);
   opacity: 0;
-  transition: all 0.8s ease;
+  /* Transiciones específicas, NO "all" */
+  transition: transform 0.8s ease, opacity 0.8s ease;
   box-shadow: 0 10px 40px rgba(10, 7, 4, 0.6);
   color: var(--story-text);
+  /* Promover a compositor layer solo cuando está a punto de animar */
+  will-change: transform, opacity;
 }
 
 .story-card:last-of-type {
@@ -462,6 +501,8 @@ footer {
 .story-card.visible {
   transform: translateY(0);
   opacity: 1;
+  /* Una vez visible, liberar el compositor layer para ahorrar GPU memory */
+  will-change: auto;
 }
 
 .story-card h2 {
@@ -516,7 +557,8 @@ footer {
   color: var(--accent-color);
 }
 
-/* --- Bounce Animation --- */
+/* --- Bounce Animation ---
+   Usar transform en lugar de top/margin para animar en el compositor */
 @keyframes bounce {
   0%, 20%, 50%, 80%, 100% {
     transform: translateY(0);
@@ -579,6 +621,8 @@ footer {
   background: #0A0704;
   position: relative;
   z-index: 100;
+  /* Aislar este bloque del resto de la página */
+  contain: layout style;
 }
 
 .video-hero video {
@@ -646,4 +690,10 @@ footer {
   .story-card {
     padding: 1.75rem;
   }
+}
+
+/* --- Error state --- */
+.error {
+  color: #8B2500;
+  font-family: var(--font-body);
 }
